@@ -14,9 +14,7 @@ positional arguments:
   password              Password from your email                              
  
 optional arguments:                                  
-  -h, --help            show this help message and exit                     
-  -t DELAY, --delay DELAY                              
-                        Delay in seconds after previous screenshot                      
-  -n NUMBER, --number NUMBER                              
-                        How many screenshots to take until sending email             
+  -h, --help                      show this help message and exit                                         
+  -t DELAY, --delay DELAY         Delay in seconds after previous screenshot                                                       
+  -n NUMBER, --number NUMBER      How many screenshots to take until sending email                         
 
